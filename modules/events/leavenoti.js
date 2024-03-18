@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "leave",
 	eventType: ["log:unsubscribe"],
 	version: "1.0.0",
-	credits: "𝘼𝙔𝙐𝙎𝙃 𝙎𝙃𝙐𝙆𝙇𝘼",//Mod by H.Thanh
+	credits: "𝙋𝙧𝙞𝙮𝙖𝙣𝙨𝙝 𝙍𝙖𝙟𝙥𝙪𝙩",
 	description: "Notify the Bot or the person leaving the group with a random gif/photo/video",
 	dependencies: {
 		"fs-extra": "",
@@ -40,10 +40,10 @@ module.exports.run = async function({ api, event, Users, Threads }) {
 
 	if (existsSync(path)) mkdirSync(path, { recursive: true });
 
-(typeof data.customLeave == "undefined") ? msg = "╠💯𝐊𝐇𝐀𝐓𝐀𝐌 𝐓𝐀𝐓𝐀 𝐁𝐲𝐄 𝐁𝐲𝐄 🤧╣\n\n 𝐔𝐬𝐤𝐚 𝐍𝐚𝐚𝐦 » {name} \n\n 𝐑𝐞𝐚𝐬𝐨𝐧 »» {type} \n\n 𝐓𝐢𝐦𝐞 »» {time} \n\n 😍😍 ❣️ {session} " : msg = data.customLeave;
-	msg = msg.replace(/\{name}/g, name).replace(/\{type}/g, type).replace(/\{session}/g, hours <= 10 ? "Suprabhat" : 
-    hours > 10 && hours <= 12 ? "Good Afternoon" :
-    hours > 12 && hours <= 18 ? "Good Evening" : "Good Night").replace(/\{time}/g, time);  
+(typeof data.customLeave == "undefined") ? msg = "[⚜️] 👉🏻👉🏻 {name} 👈🏻👈🏻▬▬▬▬ KO Bhaga diya  .... {type}  [⚜️]\n😒😒\n🌺🌸🌺 🙏🏻 👉🏻👉🏻👉🏻 {name} 👈🏻👈🏻 ●▬▬▬▬๑۩۩BEHTI HAWA SA THAA WO 😥 uDTI PATANG✨✨ SAA THAA WOO ♥ KAHA GAYA USE DHOONDHO🤔🤔🤔●▬▬▬▬๑۩ 🙏🏻💐<3😊💔\n\n[❤️‍🔥] 🖤🖤😥😥...Good {session} || {time}" : msg = data.customLeave;
+	msg = msg.replace(/\{name}/g, name).replace(/\{type}/g, type).replace(/\{session}/g, hours <= 10 ? "𝙈𝙤𝙧𝙣𝙞𝙣𝙜" : 
+    hours > 10 && hours <= 12 ? "𝘼𝙛𝙩𝙚𝙧𝙉𝙤𝙤𝙣" :
+    hours > 12 && hours <= 18 ? "𝙀𝙫𝙚𝙣𝙞𝙣𝙜" : "𝙉𝙞𝙜𝙝𝙩").replace(/\{time}/g, time);  
 
 	const randomPath = readdirSync(join(__dirname, "cache", "leaveGif", "randomgif"));
 
@@ -55,4 +55,4 @@ module.exports.run = async function({ api, event, Users, Threads }) {
 	else formPush = { body: msg }
 	
 	return api.sendMessage(formPush, threadID);
-}
+			   }
