@@ -1,5 +1,5 @@
 module.exports.config = {
-    name: "imgsearch",
+    name: "pin",
     version: "1.0.0",
     hasPermssion: 0,
     credits: "D-Jukie",
