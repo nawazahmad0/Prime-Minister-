@@ -1,22 +1,50 @@
+const imgur = require("imgur");
+const fs = require("fs");
+const { downloadFile } = require("../../utils/index.js");
+
 module.exports.config = {
-    name: "imgur",
-    version: "1.0.0",
-    hasPermssion: 0,
-    credits: "Joshua Sy",
-    description: "imgur upload",
-    commandCategory: "imgur",
-    usages: "[reply to image]",
-    cooldowns: 5,
-    dependencies: {
-  "axios": "",}
+  name: "vimgur",
+  version: "1.0.0",
+  hasPermssion: 0,
+  credits: "Priyansh Rajput",
+  description: "Imgur",
+  commandCategory: "Utilities",
+  usages: "[reply]",
+  cooldowns: 0
 };
- 
+
 module.exports.run = async ({ api, event }) => {
-const axios = global.nodemodule['axios'];  
-var linkanh = event.messageReply.attachments[0].url || args.join(" ");
-    if(!linkanh) return api.sendMessage('Please reply to image.', event.threadID, event.messageID)
-const res = await axios.get(`https://sim.ainz-project.repl.co/others/imgur?link=${encodeURIComponent(linkanh)}`);    
-var juswa = res.data.uploaded.image;
-    return api.sendMessage(`Here is your imgur link:\n\n${juswa}`, event.threadID, event.messageID);
- 
+  const { threadID, type, messageReply, messageID } = event;
+  const ClientID = "fc9369e9aea767c";
+  if (type !== "message_reply" || messageReply.attachments.length == 0) return api.sendMessage("You must reply to a certain video or photo", threadID, messageID);
+  imgur.setClientId(ClientID);
+  const attachmentSend = [];
+  async function getAttachments(attachments) {
+    let startFile = 0;
+    for (const data of attachments) {
+      const ext = data.type == "photo" ? "jpg" :
+        data.type == "video" ? "mp4" :
+          data.type == "audio" ? "m4a" :
+            data.type == "animated_image" ? "gif" : "txt";
+      const pathSave = __dirname + `/cache/${startFile}.${ext}`
+      ++startFile;
+      const url = data.url;
+      await downloadFile(url, pathSave);
+      attachmentSend.push(pathSave);
+    }
+  }
+  await getAttachments(messageReply.attachments);
+  let msg = "", Succes = 0, Error = [];
+  for (const getImage of attachmentSend) {
+    try {
+      const getLink = await imgur.uploadFile(getImage)
+      console.log(getLink);
+      msg += `"${getLink.link}",\n`
+      fs.unlinkSync(getImage)
+    } catch {
+      Error.push(getImage);
+      fs.unlinkSync(getImage)
+    }
+  }
+  return api.sendMessage(`${msg}`, threadID);
 }
